@@ -139,10 +139,10 @@ for group_ind = 1:number_of_groups
             end
             % If the channel isn't enabled, we just discard the info
         end
-        channel_headers{group_ind} = [group_channels{:}]';
+        channel_headers{group_ind} = safe_vertcat(group_channels{:});
     end
 end
-channel_headers = [channel_headers{:}]';
+channel_headers = safe_vertcat(channel_headers{:});
 
 signal_type_codes = {
     0, 'amplifier';
@@ -287,6 +287,17 @@ dat = struct;
 dat.header = hdr;
 dat.signals = signals;
 
+end
+
+% Fixes for Octave bugs
+function x = safe_vertcat(varargin)
+empty_inputs = cellfun(@isempty, varargin);
+x = vertcat(varargin{empty_inputs});
+end
+
+function x = safe_horzcat(varargin)
+empty_inputs = cellfun(@isempty, varargin);
+x = horzcat(varargin{empty_inputs});
 end
 
 function tf = version_is_at_least(version, testversion)
