@@ -238,7 +238,7 @@ end
 current_file_pos = ftell(fid);
 fseek(fid, 0, 'eof');
 file_size = ftell(fid);
-fseek(fid, current_file_pos);
+fseek(fid, current_file_pos, 'bof');
 
 bytes_remaining = file_size - current_file_pos;
 num_blocks = bytes_remaining / bytes_per_block;
