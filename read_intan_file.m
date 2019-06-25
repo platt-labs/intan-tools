@@ -292,12 +292,12 @@ end
 % Fixes for Octave bugs
 function x = safe_vertcat(varargin)
 empty_inputs = cellfun(@isempty, varargin);
-x = vertcat(varargin{empty_inputs});
+x = vertcat(varargin{~empty_inputs});
 end
 
 function x = safe_horzcat(varargin)
 empty_inputs = cellfun(@isempty, varargin);
-x = horzcat(varargin{empty_inputs});
+x = horzcat(varargin{~empty_inputs});
 end
 
 function tf = version_is_at_least(version, testversion)
