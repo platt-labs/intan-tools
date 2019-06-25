@@ -234,8 +234,13 @@ for i=1:numel(signals)
     bytes_per_block = bytes_per_block + samples_per_block * bytes_per_sample;
 end
 
-file_info = stat(fid);
-bytes_remaining = file_info.size - ftell(fid);
+% Get file size the hard way because Matlab doesn't have stat()
+current_file_pos = ftell(fid);
+fseek(fid, 0, 'eof');
+file_size = ftell(fid);
+fseek(fid, current_file_pos);
+
+bytes_remaining = file_size - current_file_pos;
 num_blocks = bytes_remaining / bytes_per_block;
 
 % Preallocate data for all signals
